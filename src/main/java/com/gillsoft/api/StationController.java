@@ -19,20 +19,24 @@ import com.gillsoft.entity.Station;
 import com.gillsoft.entity.StationResourceMap;
 import com.gillsoft.service.impl.StationServiceImpl;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(path="/api", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class StationController {
 
 	@Autowired
     private StationServiceImpl stationService;
 
-	@GetMapping
+	@GetMapping()
+	@ApiOperation("Get all stations")
 	public ResponseEntity<List<Station>> getAll() {
 		List<Station> stations = stationService.getAll();
 		return new ResponseEntity<List<Station>>(stations, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
+	@ApiOperation("Get one station by it's key (id)")
 	public ResponseEntity<Station> getOne(@PathVariable("id") int stationId) {
 		Station station = stationService.findOne(stationId);
 		if (station == null) {
@@ -42,6 +46,7 @@ public class StationController {
 	}
 	
 	@PostMapping
+	@ApiOperation("Create new station")
 	public ResponseEntity<Station> create(@RequestBody Station station) {
 		if (station.getStationLangs() != null && !station.getStationLangs().isEmpty()) {
 			station.getStationLangs().stream().forEach(c -> c.setStation(station));
@@ -50,6 +55,7 @@ public class StationController {
 	}
 
 	@PutMapping
+	@ApiOperation("Update existing station's data")
 	public ResponseEntity<Station> update(@RequestBody Station station) {
 		if (station.getStationId() == null) {
 			return new ResponseEntity<Station>(station, HttpStatus.BAD_REQUEST);
@@ -73,6 +79,7 @@ public class StationController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation("Delete station by it's key (id)")
 	public ResponseEntity<String> delete(@PathVariable("id") int stationId) {
 		Station station = stationService.findOne(stationId);
 		if (station != null) {
@@ -83,6 +90,7 @@ public class StationController {
 	}
 
 	@PostMapping("/{id}/map")
+	@ApiOperation("Stations mapping (resource -> reference)")
 	public ResponseEntity<Station> createMap(@PathVariable("id") int stationId, @RequestBody Station station) {
 		final Station currentStation = stationService.findOne(stationId);
 		if (currentStation != null) {
@@ -97,6 +105,7 @@ public class StationController {
 	}
 
 	@DeleteMapping("/{id}/map/{resourceId}/{resourceStationId}")
+	@ApiOperation("Delete resource station's mapping (resource ≠ reference)")
 	public ResponseEntity<Station> updateMap(@PathVariable("id") int stationId,
 			@PathVariable("resourceId") int resourceId, @PathVariable("resourceStationId") String resourceStationId) {
 		final Station currentStation = stationService.findOne(stationId);

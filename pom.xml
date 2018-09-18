@@ -12,6 +12,7 @@
 		<spring.version>5.0.6.RELEASE</spring.version>
 		<jackson.version>2.9.5</jackson.version>
 		<log4j.version>2.11.0</log4j.version>
+		<swagger.version>2.8.0</swagger.version>
 	</properties>
 
 	<parent>
@@ -91,6 +92,17 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
 		</dependency>
 
 		<dependency>
